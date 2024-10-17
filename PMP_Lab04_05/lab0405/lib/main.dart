@@ -1,5 +1,34 @@
 import 'package:flutter/material.dart';
+import 'Lab6.dart';
+import 'game.dart';
 import 'second_screen.dart';
+
+final List<Game> games = [
+  Game(
+    image: "assets/images/valorant.jpg",
+    name: "Valorant",
+    followers: "10M",
+    players: "50.6M",
+    streamers: "1.8K",
+    article: "Valorant is a free-to-play first-person hero shooter developed and published by ...",
+  ),
+  Game(
+    image: "assets/images/fortnite.png",
+    name: "Fortnite",
+    followers: "12M",
+    players: "42.7M",
+    streamers: "1.6K",
+    article: "Fortnite is a free-to-play first-person hero shooter developed and published by ...",
+  ),
+  Game(
+    image: "assets/images/overwatch.jpg",
+    name: "Overwatch",
+    followers: "15M",
+    players: "23.6M",
+    streamers: "8.1K",
+    article: "Overwatch is a free-to-play first-person hero shooter developed and published by ...",
+  ),
+];
 
 void main() {
   runApp(const MyApp());
@@ -16,7 +45,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(),
+      home: Lab6(), // const MyHomePage()
     );
   }
 }
@@ -154,13 +183,29 @@ class _MyHomePageState extends State<MyHomePage> {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const SecondScreen()),
+                          MaterialPageRoute(builder: (context) => DescriptionPage(game: games[0])),
                         );
                       },
                       child: buildImageCard('assets/images/valorant.jpg'),
                     ),
-                    buildImageCard('assets/images/fortnite.png'),
-                    buildImageCard('assets/images/overwatch.jpg'),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => DescriptionPage(game: games[1])),
+                        );
+                      },
+                      child: buildImageCard('assets/images/fortnite.png'),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => DescriptionPage(game: games[2])),
+                        );
+                      },
+                      child: buildImageCard('assets/images/overwatch.jpg'),
+                    ),
                   ],
                 ),
               ),

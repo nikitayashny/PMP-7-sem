@@ -1,7 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:lab0405/game.dart';
 
-class SecondScreen extends StatelessWidget {
-  const SecondScreen({super.key});
+class DescriptionPage extends StatefulWidget {
+  final Game game;
+
+  DescriptionPage({required this.game});
+
+  @override
+  SecondScreen createState() => SecondScreen();
+}
+
+class SecondScreen extends State<DescriptionPage> {
+  late Game game;
+
+  @override
+  void initState() {
+    super.initState();
+    game = widget.game;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,8 +37,8 @@ class SecondScreen extends StatelessWidget {
           ),
           child: AppBar(
             backgroundColor: Colors.transparent,
-            title: const Text(
-              'Valorant',
+            title: Text(
+              game.name,
               style: TextStyle(color: Colors.white),
             ),
             iconTheme: IconThemeData(color: Colors.white),
@@ -39,7 +55,7 @@ class SecondScreen extends StatelessWidget {
                 height: 400.285,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage('assets/images/valorant.jpg'), // Замените на ваш путь к изображению
+                    image: AssetImage(game.image),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -54,7 +70,7 @@ class SecondScreen extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        'Valorant',
+                        game.name,
                         style: TextStyle(
                           fontSize: 72,
                           color: Colors.white,
@@ -117,9 +133,9 @@ class SecondScreen extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      _buildInfoBlock(Icons.people, '10M', 'Followers'),
-                      _buildInfoBlock(Icons.people_alt, '50.6M', 'Players'),
-                      _buildInfoBlock(Icons.wifi, '1.8K', 'Streamers'),
+                      _buildInfoBlock(Icons.people, game.followers, 'Followers'),
+                      _buildInfoBlock(Icons.people_alt, game.players, 'Players'),
+                      _buildInfoBlock(Icons.wifi, game.streamers, 'Streamers'),
                     ],
                   ),
                   const SizedBox(height: 14),
@@ -127,7 +143,7 @@ class SecondScreen extends StatelessWidget {
                     TextSpan(
                       children: [
                         TextSpan(
-                          text: 'Valorant is a free-to-play first-person hero shooter developed and published by ...',
+                          text: game.article,
                           style: TextStyle(color: Color.fromARGB(180, 255, 255, 255), fontSize: 16),
                         ),
                         TextSpan(
