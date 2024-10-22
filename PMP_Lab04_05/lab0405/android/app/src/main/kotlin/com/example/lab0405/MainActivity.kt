@@ -81,18 +81,16 @@ class MainActivity : FlutterActivity() {
     }
 
     private fun openEmailApp(subject: String) {
-        val emailIntent = Intent(Intent.ACTION_SENDTO).apply {
-            data = Uri.parse("mailto:")
+        val emailIntent = Intent(Intent.ACTION_SEND).apply {
+            type = "text/plain"
             putExtra(Intent.EXTRA_SUBJECT, subject)
         }
         try {
-            if (emailIntent.resolveActivity(packageManager) != null) {
-                startActivity(emailIntent)
-            } else {
-                Toast.makeText(this, "Нет доступных приложений для отправки электронной почты", Toast.LENGTH_SHORT).show()
-            }
+            startActivity(Intent.createChooser(emailIntent, "Отправить через..."))
         } catch (e: Exception) {
-            Toast.makeText(this, "Ошибка при открытии почтового приложения: ${e.message}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Нет доступных приложений для отправки сообщения", Toast.LENGTH_SHORT).show()
+        } catch (e: Exception) {
+            Toast.makeText(this, "Ошибка при открытии приложения: ${e.message}", Toast.LENGTH_SHORT).show()
             e.printStackTrace()
         }
     }

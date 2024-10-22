@@ -75,7 +75,7 @@ class Lab6 extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () async {
-                await Email.openEmail("Тема вашего сообщения");
+                await Email.openEmail("Lab06");
                 print("Открыто почтовое приложение с темой сообщения");
               },
               child: Text("Открыть почтовое приложение"),
