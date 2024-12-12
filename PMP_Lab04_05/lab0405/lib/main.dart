@@ -1,37 +1,44 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'game_provider.dart';
 import 'Lab6.dart';
 import 'game.dart';
 import 'second_screen.dart';
 
-final List<Game> games = [
-  Game(
-    image: "assets/images/valorant.jpg",
-    name: "Valorant",
-    followers: "10M",
-    players: "50.6M",
-    streamers: "1.8K",
-    article: "Valorant is a free-to-play first-person hero shooter developed and published by ...",
-  ),
-  Game(
-    image: "assets/images/fortnite.png",
-    name: "Fortnite",
-    followers: "12M",
-    players: "42.7M",
-    streamers: "1.6K",
-    article: "Fortnite is a free-to-play first-person hero shooter developed and published by ...",
-  ),
-  Game(
-    image: "assets/images/overwatch.jpg",
-    name: "Overwatch",
-    followers: "15M",
-    players: "23.6M",
-    streamers: "8.1K",
-    article: "Overwatch is a free-to-play first-person hero shooter developed and published by ...",
-  ),
-];
+// final List<Game> games = [
+//   Game(
+//     image: "assets/images/valorant.jpg",
+//     name: "Valorant",
+//     followers: "10M",
+//     players: "50.6M",
+//     streamers: "1.8K",
+//     article: "Valorant is a free-to-play first-person hero shooter developed and published by ...",
+//   ),
+//   Game(
+//     image: "assets/images/fortnite.png",
+//     name: "Fortnite",
+//     followers: "12M",
+//     players: "42.7M",
+//     streamers: "1.6K",
+//     article: "Fortnite is a free-to-play first-person hero shooter developed and published by ...",
+//   ),
+//   Game(
+//     image: "assets/images/overwatch.jpg",
+//     name: "Overwatch",
+//     followers: "15M",
+//     players: "23.6M",
+//     streamers: "8.1K",
+//     article: "Overwatch is a free-to-play first-person hero shooter developed and published by ...",
+//   ),
+// ];
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => GameProvider(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -45,21 +52,16 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: Lab6(), // const MyHomePage()
+      home: MyHomePage(), // const MyHomePage()
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
+class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final gameProvider = Provider.of<GameProvider>(context);
+
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -176,37 +178,22 @@ class _MyHomePageState extends State<MyHomePage> {
               const SizedBox(height: 20),
               SizedBox(
                 height: 320,
-                child: ListView(
+                child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  children: [
-                    GestureDetector(
+                  itemCount: gameProvider.games.length,
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => DescriptionPage(game: games[0])),
+                          MaterialPageRoute(
+                            builder: (context) => DescriptionPage(game: gameProvider.games[index]),
+                          ),
                         );
                       },
-                      child: buildImageCard('assets/images/valorant.jpg'),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => DescriptionPage(game: games[1])),
-                        );
-                      },
-                      child: buildImageCard('assets/images/fortnite.png'),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => DescriptionPage(game: games[2])),
-                        );
-                      },
-                      child: buildImageCard('assets/images/overwatch.jpg'),
-                    ),
-                  ],
+                      child: buildImageCard(gameProvider.games[index].image),
+                    );
+                  },
                 ),
               ),
               Padding(
